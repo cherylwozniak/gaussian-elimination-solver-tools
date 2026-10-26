@@ -28,3 +28,10 @@ Numerical linear algebra libraries tend to be large and general-purpose. This li
 ## The awkward edge
 
 Floating-point. Near-singular matrices where the pivot is small-but-nonzero will produce solutions with large relative error. We treat a pivot as zero when its magnitude is below `max_abs_entry * 1e-10`, which works for most inputs but is a heuristic, not a guarantee. If your matrix has entries spanning many orders of magnitude, rescale before solving. Comparing two solutions for equality with `===` will fail; use a tolerance.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
